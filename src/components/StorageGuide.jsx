@@ -1,9 +1,114 @@
 import React from 'react';
-import { Database, Shield, Share2, Info, ArrowRight, ExternalLink, HelpCircle, HardDrive, Wifi, Settings } from 'lucide-react';
+import { Database, Shield, Share2, Info, ArrowRight, ArrowDown, ExternalLink, HelpCircle, HardDrive, Wifi, Settings, UserCheck, ShoppingCart, Wallet, Scale } from 'lucide-react';
 
 export default function StorageGuide({ isCloudActive, onOpenSettings }) {
   return (
     <div className="space-y-6 animate-fade-in text-slate-100">
+      
+      {/* Operation Flow Diagram */}
+      <div className="p-6 rounded-3xl bg-slate-900/60 border border-slate-800 space-y-6">
+        <div className="space-y-1">
+          <h3 className="text-sm font-black text-white flex items-center space-x-2">
+            <span className="p-1 rounded-md bg-indigo-500/10 text-indigo-400">
+              <Scale className="w-4 h-4" />
+            </span>
+            <span>Application Workflow Guide / অ্যাপ্লিকেশন ব্যবহার পদ্ধতি</span>
+          </h3>
+          <p className="text-xs text-slate-350 leading-normal">
+            Follow this 5-step operational flow to manage house grocery expenses and calculate settle balances:
+          </p>
+          <p className="text-xs text-slate-450 leading-normal italic border-l border-indigo-500/30 pl-2">
+            ঘরের বাজারের খরচ পরিচালনা এবং ব্যালেন্স নিষ্পত্তি করতে এই ৫টি ধাপ অনুসরণ করুন:
+          </p>
+        </div>
+
+        <div className="flex flex-col lg:flex-row items-stretch justify-between gap-3 lg:gap-2">
+          {/* Step 1 */}
+          <div className="w-full lg:flex-1 p-4 rounded-2xl bg-slate-950/45 border border-slate-850 hover:border-slate-800 transition-colors flex flex-col justify-between gap-3">
+            <div className="flex items-center justify-between">
+              <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-400">Step 1</span>
+              <UserCheck className="w-4 h-4 text-indigo-400" />
+            </div>
+            <div>
+              <h4 className="text-xs font-bold text-white">Login / লগইন</h4>
+              <p className="text-[11px] text-slate-400 leading-normal mt-1">Select your roommate account (Reza or Reaz) to access your dashboard.</p>
+              <p className="text-[11px] text-slate-500 leading-normal mt-0.5 italic">ড্যাশবোর্ডে প্রবেশ করতে আপনার রুমমেট অ্যাকাউন্টটি সিলেক্ট করুন।</p>
+            </div>
+          </div>
+
+          <div className="flex items-center justify-center shrink-0 self-center">
+            <ArrowRight className="w-4 h-4 text-slate-700 lg:block hidden shrink-0" />
+            <ArrowDown className="w-4 h-4 text-slate-700 lg:hidden block shrink-0" />
+          </div>
+
+          {/* Step 2 */}
+          <div className="w-full lg:flex-1 p-4 rounded-2xl bg-slate-950/45 border border-slate-850 hover:border-slate-800 transition-colors flex flex-col justify-between gap-3">
+            <div className="flex items-center justify-between">
+              <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded bg-amber-500/10 text-amber-400">Step 2</span>
+              <Database className="w-4 h-4 text-amber-400" />
+            </div>
+            <div>
+              <h4 className="text-xs font-bold text-white">Database Mode / ডাটাবেস মোড</h4>
+              <p className="text-[11px] text-slate-400 leading-normal mt-1">Use Local storage offline or connect Cloud Sync (JSONBin) for sharing.</p>
+              <p className="text-[11px] text-slate-500 leading-normal mt-0.5 italic">অফলাইন লোকাল ব্রাউজার স্টোরেজ অথবা রিয়েল-টাইম ক্লাউড সিঙ্ক সিলেক্ট করুন।</p>
+            </div>
+          </div>
+
+          <div className="flex items-center justify-center shrink-0 self-center">
+            <ArrowRight className="w-4 h-4 text-slate-700 lg:block hidden shrink-0" />
+            <ArrowDown className="w-4 h-4 text-slate-700 lg:hidden block shrink-0" />
+          </div>
+
+          {/* Step 3 */}
+          <div className="w-full lg:flex-1 p-4 rounded-2xl bg-slate-950/45 border border-slate-850 hover:border-slate-800 transition-colors flex flex-col justify-between gap-3">
+            <div className="flex items-center justify-between">
+              <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400">Step 3</span>
+              <ShoppingCart className="w-4 h-4 text-emerald-400" />
+            </div>
+            <div>
+              <h4 className="text-xs font-bold text-white">Log Bazar / বাজার খরচ এন্ট্রি</h4>
+              <p className="text-[11px] text-slate-400 leading-normal mt-1">Enter daily grocery costs, item notes, and buyer info in the gallery.</p>
+              <p className="text-[11px] text-slate-500 leading-normal mt-0.5 italic">বাজার খরচ, আইটেম নোট এবং ক্রেতার নাম গ্যালারিতে এন্ট্রি করুন।</p>
+            </div>
+          </div>
+
+          <div className="flex items-center justify-center shrink-0 self-center">
+            <ArrowRight className="w-4 h-4 text-slate-700 lg:block hidden shrink-0" />
+            <ArrowDown className="w-4 h-4 text-slate-700 lg:hidden block shrink-0" />
+          </div>
+
+          {/* Step 4 */}
+          <div className="w-full lg:flex-1 p-4 rounded-2xl bg-slate-950/45 border border-slate-850 hover:border-slate-800 transition-colors flex flex-col justify-between gap-3">
+            <div className="flex items-center justify-between">
+              <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded bg-sky-500/10 text-sky-400">Step 4</span>
+              <Wallet className="w-4 h-4 text-sky-400" />
+            </div>
+            <div>
+              <h4 className="text-xs font-bold text-white">Adjust Cash / অবদান যোগ</h4>
+              <p className="text-[11px] text-slate-400 leading-normal mt-1">Deposit base cash pool contributions for other household utilities.</p>
+              <p className="text-[11px] text-slate-500 leading-normal mt-0.5 italic">অন্যান্য ইউটিলিটি খরচের জন্য ক্যাশ ডিপোজিট বা অবদান যোগ করুন।</p>
+            </div>
+          </div>
+
+          <div className="flex items-center justify-center shrink-0 self-center">
+            <ArrowRight className="w-4 h-4 text-slate-700 lg:block hidden shrink-0" />
+            <ArrowDown className="w-4 h-4 text-slate-700 lg:hidden block shrink-0" />
+          </div>
+
+          {/* Step 5 */}
+          <div className="w-full lg:flex-1 p-4 rounded-2xl bg-slate-950/45 border border-slate-850 hover:border-slate-800 transition-colors flex flex-col justify-between gap-3">
+            <div className="flex items-center justify-between">
+              <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-400">Step 5</span>
+              <Scale className="w-4 h-4 text-indigo-400" />
+            </div>
+            <div>
+              <h4 className="text-xs font-bold text-white">Settlement / ব্যালেন্স নিষ্পত্তি</h4>
+              <p className="text-[11px] text-slate-400 leading-normal mt-1">Check split dues calculations (58.33% / 41.67%) and export PDF.</p>
+              <p className="text-[11px] text-slate-500 leading-normal mt-0.5 italic">স্বয়ংক্রিয় বন্টন হিসাব চেক করুন এবং ব্যালেন্স নিষ্পত্তি বা পিডিএফ ডাউনলোড করুন।</p>
+            </div>
+          </div>
+        </div>
+      </div>
       
       {/* Overview Banner */}
       <div className="relative overflow-hidden p-6 sm:p-8 rounded-3xl bg-slate-900/60 border border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-6">
