@@ -608,6 +608,8 @@ export default function App() {
         <footer className="pt-8 pb-4 border-t border-slate-800/60 flex flex-col sm:flex-row items-center justify-between text-[11px] text-slate-500 font-semibold gap-3">
           <span>&copy; {new Date().getFullYear()} Reazul. All Rights Reserved.</span>
           <div className="flex items-center space-x-4">
+            <span onClick={() => setActiveTab('storage-guide')} className="hover:text-slate-400 cursor-pointer text-indigo-400 hover:text-indigo-300">Instruction</span>
+            <span>&bull;</span>
             <span onClick={() => setDocModalType('privacy')} className="hover:text-slate-400 cursor-pointer">Privacy Policy</span>
             <span>&bull;</span>
             <span onClick={() => setDocModalType('terms')} className="hover:text-slate-400 cursor-pointer">Terms of Service</span>

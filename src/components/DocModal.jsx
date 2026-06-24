@@ -34,39 +34,40 @@ export default function DocModal({ isOpen, onClose, type }) {
         <div className="p-6 max-h-[400px] overflow-y-auto text-sm text-slate-300 space-y-4 leading-relaxed">
           {isPrivacy ? (
             <>
-              <p className="font-semibold text-white">1. Data Storage & Privacy Policy</p>
+              <p className="font-semibold text-white">1. Data Storage & Privacy Options</p>
               <p>
-                This application operates entirely client-side. All expense data, roommate contributions, shopping logs, and session settings are stored locally on your device's browser cache using <strong>Local Storage</strong> (<code>localStorage</code>).
+                This application supports two data storage modes:
               </p>
+              <ul className="list-disc list-inside space-y-1 pl-2">
+                <li><strong>Local Storage (Offline)</strong>: By default, all bazar lists, user logins, and roommate contributions are stored entirely client-side in your browser's local cache (<code>localStorage</code>). No data is transmitted to external servers.</li>
+                <li><strong>Cloud Sync Mode (External Database)</strong>: If you configure external storage, your data is synced in real-time with your personal bin on JSONBin.io. Your credentials (API Key and Bin ID) are stored only in your local browser cache to enable direct API communication.</li>
+              </ul>
+              <p className="font-semibold text-white">2. Third-Party Integrations & Security</p>
               <p>
-                No data is transmitted, processed, or stored on any external servers. Your financial information, grocery costs, and mobile numbers remain completely private to your local browser environment.
+                We do not track, collect, or store your JSONBin API credentials or personal expense data. All traffic to JSONBin.io is executed directly from your web browser using HTTPS encryption. Export operations (PDF and Excel generation) are executed completely in-memory inside your browser without contacting external APIs.
               </p>
-              <p className="font-semibold text-white">2. Third-Party Integrations</p>
+              <p className="font-semibold text-white">3. Clear Cached Data</p>
               <p>
-                This application does not integrate with any third-party marketing, analytics, or user-tracking tools. PDF and Excel file generation is executed fully inside your browser without any network API communication.
-              </p>
-              <p className="font-semibold text-white">3. Cookies and Session Tokens</p>
-              <p>
-                No HTTP tracking cookies are utilized. Only persistent state records necessary to maintain your login session and bazar entry history are retained. Clearing your browser cookies/site data will reset all logs.
+                Clearing your browser cache or site data will reset your offline logs and disconnect any active Cloud Sync configurations.
               </p>
             </>
           ) : (
             <>
               <p className="font-semibold text-white">1. Agreement to Terms</p>
               <p>
-                By using this Shared Expense & Settlement Hub, you agree to govern house expense splits and settle dues under your own roommate agreement terms. This utility is provided solely for tracking purposes.
+                By using this Shared Expense Tracker, you agree to track house grocer expenses and settle balances according to these terms. This utility is provided solely for convenience.
               </p>
-              <p className="font-semibold text-white">2. Calculation Split Ratio</p>
+              <p className="font-semibold text-white">2. Split Calculations Ratio</p>
               <p>
-                The calculation engine operates on a fixed ratio split where roommate <strong>Reza</strong> split weight is <strong>58.33%</strong> and roommate <strong>Reaz</strong> split weight is <strong>41.67%</strong>. This split configuration remains fixed as per the project specifications.
+                Splits are calculated based on the fixed ratio configured for roommates <strong>Reza</strong> (split weight: <strong>58.33%</strong>) and <strong>Reaz</strong> (split weight: <strong>41.67%</strong>).
               </p>
-              <p className="font-semibold text-white">3. Data Backups & Loss of Data</p>
+              <p className="font-semibold text-white">3. Data Backups & Cloud Sync Responsibility</p>
               <p>
-                Because this application relies entirely on browser <code>localStorage</code>, your records can be lost if you clear your browser history, reset cache data, or use incognito private browsing sessions. It is highly recommended to export your reports regularly using the <strong>Export Excel (CSV)</strong> feature.
+                When using Local Storage, you risk data loss if you clear browser caches. When using Cloud Sync Mode, you are solely responsible for creating and securing your own JSONBin.io account, API keys, and database bins. We do not provide backup restoration services.
               </p>
-              <p className="font-semibold text-white">4. License & Indemnity</p>
+              <p className="font-semibold text-white">4. License & Attribution</p>
               <p>
-                This software is open source under the MIT License. The creator (Reazul) and contributors provide this code "as is" and are not responsible for any tracking disputes or data loss.
+                This software is open source under the MIT License. The creator (Reazul) and contributors provide this code "as is" without warranties of any kind.
               </p>
             </>
           )}
