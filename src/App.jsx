@@ -29,6 +29,60 @@ const INITIAL_CONTRIBUTIONS = {
   Reaz: 5000,
 };
 
+// Helper to migrate legacy names ("Vaia" -> "Reza", "Reazul" -> "Reaz") in all data structures
+const migrateLegacyNames = (data) => {
+  if (!data) return data;
+  
+  // 1. Migrate bazarList
+  let bazarList = data.bazarList;
+  if (Array.isArray(bazarList)) {
+    bazarList = bazarList.map(item => {
+      if (item.buyer === 'Vaia') return { ...item, buyer: 'Reza' };
+      if (item.buyer === 'Reazul') return { ...item, buyer: 'Reaz' };
+      return item;
+    });
+  }
+
+  // 2. Migrate baseContributions
+  let baseContributions = data.baseContributions;
+  if (baseContributions) {
+    if ('Vaia' in baseContributions || 'Reazul' in baseContributions) {
+      baseContributions = {
+        Reza: baseContributions.Reza ?? baseContributions.Vaia ?? INITIAL_CONTRIBUTIONS.Reza,
+        Reaz: baseContributions.Reaz ?? baseContributions.Reazul ?? INITIAL_CONTRIBUTIONS.Reaz,
+      };
+    }
+  }
+
+  // 3. Migrate registeredUsers
+  let registeredUsers = data.registeredUsers;
+  if (Array.isArray(registeredUsers)) {
+    registeredUsers = registeredUsers.map(user => {
+      if (user.name === 'Vaia') return { ...user, name: 'Reza' };
+      if (user.name === 'Reazul') return { ...user, name: 'Reaz' };
+      return user;
+    });
+  }
+
+  // 4. Migrate currentUser
+  let currentUser = data.currentUser;
+  if (currentUser) {
+    if (currentUser.name === 'Vaia') {
+      currentUser = { ...currentUser, name: 'Reza' };
+    } else if (currentUser.name === 'Reazul') {
+      currentUser = { ...currentUser, name: 'Reaz' };
+    }
+  }
+
+  return {
+    ...data,
+    bazarList,
+    baseContributions,
+    registeredUsers,
+    currentUser
+  };
+};
+
 export default function App() {
   // Navigation
   const [activeTab, setActiveTab] = useState('gallery');
@@ -39,17 +93,11 @@ export default function App() {
     if (saved) {
       try {
         const user = JSON.parse(saved);
-        if (user && user.name === 'Vaia') {
-          const migrated = { ...user, name: 'Reza' };
-          localStorage.setItem('active_user', JSON.stringify(migrated));
-          return migrated;
+        const migrated = migrateLegacyNames({ currentUser: user });
+        if (JSON.stringify(migrated.currentUser) !== JSON.stringify(user)) {
+          localStorage.setItem('active_user', JSON.stringify(migrated.currentUser));
         }
-        if (user && user.name === 'Reazul') {
-          const migrated = { ...user, name: 'Reaz' };
-          localStorage.setItem('active_user', JSON.stringify(migrated));
-          return migrated;
-        }
-        return user;
+        return migrated.currentUser;
       } catch (e) {
         return null;
       }
@@ -70,23 +118,12 @@ export default function App() {
     const saved = localStorage.getItem('bazar_list');
     if (saved) {
       try {
-        let parsed = JSON.parse(saved);
-        let changed = false;
-        parsed = parsed.map(item => {
-          if (item.buyer === 'Vaia') {
-            changed = true;
-            return { ...item, buyer: 'Reza' };
-          }
-          if (item.buyer === 'Reazul') {
-            changed = true;
-            return { ...item, buyer: 'Reaz' };
-          }
-          return item;
-        });
-        if (changed) {
-          localStorage.setItem('bazar_list', JSON.stringify(parsed));
+        const list = JSON.parse(saved);
+        const migrated = migrateLegacyNames({ bazarList: list });
+        if (JSON.stringify(migrated.bazarList) !== JSON.stringify(list)) {
+          localStorage.setItem('bazar_list', JSON.stringify(migrated.bazarList));
         }
-        return parsed;
+        return migrated.bazarList;
       } catch (e) {
         return INITIAL_BAZAR_DATA;
       }
@@ -98,16 +135,12 @@ export default function App() {
     const savedBase = localStorage.getItem('base_contributions');
     if (savedBase) {
       try {
-        let parsed = JSON.parse(savedBase);
-        if ('Vaia' in parsed || 'Reazul' in parsed) {
-          const migrated = {
-            Reza: parsed.Reza ?? parsed.Vaia ?? INITIAL_CONTRIBUTIONS.Reza,
-            Reaz: parsed.Reaz ?? parsed.Reazul ?? INITIAL_CONTRIBUTIONS.Reaz,
-          };
-          localStorage.setItem('base_contributions', JSON.stringify(migrated));
-          return migrated;
+        const base = JSON.parse(savedBase);
+        const migrated = migrateLegacyNames({ baseContributions: base });
+        if (JSON.stringify(migrated.baseContributions) !== JSON.stringify(base)) {
+          localStorage.setItem('base_contributions', JSON.stringify(migrated.baseContributions));
         }
-        return parsed;
+        return migrated.baseContributions;
       } catch (e) {
         return INITIAL_CONTRIBUTIONS;
       }
@@ -115,16 +148,10 @@ export default function App() {
     const savedOld = localStorage.getItem('contributions');
     if (savedOld) {
       try {
-        let parsed = JSON.parse(savedOld);
-        if ('Vaia' in parsed || 'Reazul' in parsed) {
-          const migrated = {
-            Reza: parsed.Reza ?? parsed.Vaia ?? INITIAL_CONTRIBUTIONS.Reza,
-            Reaz: parsed.Reaz ?? parsed.Reazul ?? INITIAL_CONTRIBUTIONS.Reaz,
-          };
-          localStorage.setItem('base_contributions', JSON.stringify(migrated));
-          return migrated;
-        }
-        return parsed;
+        const old = JSON.parse(savedOld);
+        const migrated = migrateLegacyNames({ baseContributions: old });
+        localStorage.setItem('base_contributions', JSON.stringify(migrated.baseContributions));
+        return migrated.baseContributions;
       } catch (e) {
         return INITIAL_CONTRIBUTIONS;
       }
@@ -135,7 +162,19 @@ export default function App() {
   // Registered Users State
   const [registeredUsers, setRegisteredUsers] = useState(() => {
     const saved = localStorage.getItem('registered_users');
-    return saved ? JSON.parse(saved) : [];
+    if (saved) {
+      try {
+        const users = JSON.parse(saved);
+        const migrated = migrateLegacyNames({ registeredUsers: users });
+        if (JSON.stringify(migrated.registeredUsers) !== JSON.stringify(users)) {
+          localStorage.setItem('registered_users', JSON.stringify(migrated.registeredUsers));
+        }
+        return migrated.registeredUsers;
+      } catch (e) {
+        return [];
+      }
+    }
+    return [];
   });
 
   // Cloud Sync Settings States
@@ -179,8 +218,9 @@ export default function App() {
     setIsCloudSyncing(true);
     setCloudError('');
     try {
-      const data = await fetchCloudData(key, id);
-      if (data) {
+      const rawData = await fetchCloudData(key, id);
+      if (rawData) {
+        const data = migrateLegacyNames(rawData);
         if (Array.isArray(data.bazarList)) {
           setBazarList(data.bazarList);
         }
@@ -189,6 +229,13 @@ export default function App() {
         }
         if (Array.isArray(data.registeredUsers)) {
           setRegisteredUsers(data.registeredUsers);
+        }
+        // Also migrate current session user if active
+        if (currentUser) {
+          const migratedUser = migrateLegacyNames({ currentUser }).currentUser;
+          if (migratedUser.name !== currentUser.name) {
+            setCurrentUser(migratedUser);
+          }
         }
       }
     } catch (err) {
@@ -204,10 +251,15 @@ export default function App() {
     setIsCloudSyncing(true);
     setCloudError('');
     try {
-      await updateCloudData(dbApiKey, dbBinId, {
+      const migrated = migrateLegacyNames({
         bazarList: list,
         baseContributions: contribs,
-        registeredUsers: users,
+        registeredUsers: users
+      });
+      await updateCloudData(dbApiKey, dbBinId, {
+        bazarList: migrated.bazarList,
+        baseContributions: migrated.baseContributions,
+        registeredUsers: migrated.registeredUsers,
       });
     } catch (err) {
       console.error(err);

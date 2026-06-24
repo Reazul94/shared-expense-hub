@@ -146,7 +146,7 @@ export function exportToPDF(bazarList, calculations, monthName = 'June 2026') {
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(8);
   doc.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
-  doc.text('VAIA TOTAL CONTRIBUTION', 78, 43);
+  doc.text('REZA TOTAL CONTRIBUTION', 78, 43);
   doc.setFontSize(14);
   doc.setTextColor(textColor[0], textColor[1], textColor[2]);
   doc.text(`TK ${(baseContributions.Reza + rezaBazarSpent).toLocaleString()}`, 78, 52);
@@ -155,7 +155,7 @@ export function exportToPDF(bazarList, calculations, monthName = 'June 2026') {
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(8);
   doc.setTextColor(secondaryColor[0], secondaryColor[1], secondaryColor[2]);
-  doc.text('REAZUL TOTAL CONTRIBUTION', 139, 43);
+  doc.text('REAZ TOTAL CONTRIBUTION', 139, 43);
   doc.setFontSize(14);
   doc.setTextColor(textColor[0], textColor[1], textColor[2]);
   doc.text(`TK ${(baseContributions.Reaz + reazBazarSpent).toLocaleString()}`, 139, 52);
