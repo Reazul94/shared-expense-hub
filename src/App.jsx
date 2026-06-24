@@ -89,30 +89,7 @@ export default function App() {
   const [activeTab, setActiveTab] = useState('gallery');
 
   // Authentication State
-  const [currentUser, setCurrentUser] = useState(() => {
-    const saved = localStorage.getItem('active_user');
-    if (saved) {
-      try {
-        const user = JSON.parse(saved);
-        const migrated = migrateLegacyNames({ currentUser: user });
-        if (JSON.stringify(migrated.currentUser) !== JSON.stringify(user)) {
-          localStorage.setItem('active_user', JSON.stringify(migrated.currentUser));
-        }
-        return migrated.currentUser;
-      } catch (e) {
-        return null;
-      }
-    }
-    return null;
-  });
-
-  useEffect(() => {
-    if (currentUser) {
-      localStorage.setItem('active_user', JSON.stringify(currentUser));
-    } else {
-      localStorage.removeItem('active_user');
-    }
-  }, [currentUser]);
+  const [currentUser, setCurrentUser] = useState(null);
 
   // State
   const [bazarList, setBazarList] = useState(() => {
