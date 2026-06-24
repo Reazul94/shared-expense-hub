@@ -6,6 +6,7 @@ import AnalyticsTab from './components/AnalyticsTab';
 import BazarModal from './components/BazarModal';
 import ContributionModal from './components/ContributionModal';
 import Auth from './components/Auth';
+import DocModal from './components/DocModal';
 import { Calendar, DollarSign, BarChart3, Receipt, Wallet2, Settings, Sparkles, LogOut, User } from 'lucide-react';
 import './App.css';
 
@@ -133,6 +134,7 @@ export default function App() {
   const [isBazarOpen, setIsBazarOpen] = useState(false);
   const [isContributionOpen, setIsContributionOpen] = useState(false);
   const [editingItem, setEditingItem] = useState(null);
+  const [docModalType, setDocModalType] = useState(null); // 'privacy' | 'terms'
 
   // Gallery Filters
   const [searchQuery, setSearchQuery] = useState('');
@@ -379,9 +381,9 @@ export default function App() {
         <footer className="pt-8 pb-4 border-t border-slate-800/60 flex flex-col sm:flex-row items-center justify-between text-[11px] text-slate-500 font-semibold gap-3">
           <span>&copy; {new Date().getFullYear()} Reazul. All Rights Reserved.</span>
           <div className="flex items-center space-x-4">
-            <span className="hover:text-slate-400 cursor-pointer">Privacy Policy</span>
+            <span onClick={() => setDocModalType('privacy')} className="hover:text-slate-400 cursor-pointer">Privacy Policy</span>
             <span>&bull;</span>
-            <span className="hover:text-slate-400 cursor-pointer">Terms of Service</span>
+            <span onClick={() => setDocModalType('terms')} className="hover:text-slate-400 cursor-pointer">Terms of Service</span>
           </div>
         </footer>
       </div>
@@ -402,6 +404,12 @@ export default function App() {
         onClose={() => setIsContributionOpen(false)}
         onSave={handleSaveContributions}
         contributions={baseContributions}
+      />
+
+      <DocModal
+        isOpen={!!docModalType}
+        onClose={() => setDocModalType(null)}
+        type={docModalType}
       />
     </div>
   );
