@@ -111,7 +111,7 @@ export default function StorageGuide({ isCloudActive, onOpenSettings }) {
       </div>
       
       {/* Overview Banner */}
-      <div className="relative overflow-hidden p-6 sm:p-8 rounded-3xl bg-slate-900/60 border border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div id="database-storage-systems" className="relative overflow-hidden p-6 sm:p-8 rounded-3xl bg-slate-900/60 border border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div className="absolute top-0 right-0 w-[30%] h-[150%] bg-indigo-500/10 rounded-full blur-[80px] pointer-events-none" />
         <div className="space-y-2 max-w-2xl">
           <div className="flex items-center space-x-2">

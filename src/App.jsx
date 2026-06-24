@@ -394,7 +394,15 @@ export default function App() {
     <div className="min-height-100vh flex flex-col justify-between pb-12">
       {/* Running Marquee Notification Banner */}
       <div 
-        onClick={() => setActiveTab('storage-guide')} 
+        onClick={() => {
+          setActiveTab('storage-guide');
+          setTimeout(() => {
+            const el = document.getElementById('database-storage-systems');
+            if (el) {
+              el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+          }, 100);
+        }}
         className="w-full bg-indigo-950/40 border-b border-indigo-500/25 text-indigo-400 py-2.5 cursor-pointer hover:bg-indigo-950/60 transition-all flex items-center justify-center font-bold text-xs select-none overflow-hidden relative z-50 group shrink-0"
         title="Click to view Database Storage instructions"
       >
