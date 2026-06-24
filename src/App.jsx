@@ -392,6 +392,23 @@ export default function App() {
 
   return (
     <div className="min-height-100vh flex flex-col justify-between pb-12">
+      {/* Running Marquee Notification Banner */}
+      <div 
+        onClick={() => setActiveTab('storage-guide')} 
+        className="w-full bg-indigo-950/40 border-b border-indigo-500/25 text-indigo-400 py-2.5 cursor-pointer hover:bg-indigo-950/60 transition-all flex items-center justify-center font-bold text-xs select-none overflow-hidden relative z-50 group shrink-0"
+        title="Click to view Database Storage instructions"
+      >
+        <div className="animate-marquee whitespace-nowrap flex items-center space-x-2">
+          <span>📢 For Database Storage System Click here / ডাটাবেস স্টোরেজ সিস্টেমের জন্য এখানে ক্লিক করুন</span>
+          <span className="opacity-40 px-4">&bull;</span>
+          <span>📢 For Database Storage System Click here / ডাটাবেস স্টোরেজ সিস্টেমের জন্য এখানে ক্লিক করুন</span>
+          <span className="opacity-40 px-4">&bull;</span>
+          <span>📢 For Database Storage System Click here / ডাটাবেস স্টোরেজ সিস্টেমের জন্য এখানে ক্লিক করুন</span>
+          <span className="opacity-40 px-4">&bull;</span>
+          <span>📢 For Database Storage System Click here / ডাটাবেস স্টোরেজ সিস্টেমের জন্য এখানে ক্লিক করুন</span>
+        </div>
+      </div>
+
       {/* Upper Ambient Glow Background */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[400px] bg-gradient-to-b from-indigo-500/10 via-emerald-500/5 to-transparent blur-3xl pointer-events-none rounded-full" />
 

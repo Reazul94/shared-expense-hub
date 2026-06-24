@@ -59,3 +59,18 @@ body {
 .animate-pulse-subtle {
   animation: pulse-subtle 2s infinite ease-in-out;
 }
+
+@keyframes marquee {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
+.animate-marquee {
+  display: inline-block;
+  white-space: nowrap;
+  animation: marquee 25s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
