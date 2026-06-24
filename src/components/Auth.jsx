@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Phone, Lock, User, LogIn, UserPlus, Sparkles, AlertCircle } from 'lucide-react';
 
-export default function Auth({ onLoginSuccess }) {
+export default function Auth({ onLoginSuccess, registeredUsers = [], onRegisterUser }) {
   const [isLogin, setIsLogin] = useState(true);
   const [error, setError] = useState('');
   
@@ -21,8 +21,8 @@ export default function Auth({ onLoginSuccess }) {
       return;
     }
 
-    // Retrieve users from local storage
-    const users = JSON.parse(localStorage.getItem('registered_users') || '[]');
+    // Retrieve users from props
+    const users = registeredUsers;
     const user = users.find(u => u.mobile === mobile);
 
     if (!user || user.password !== password) {
@@ -55,7 +55,7 @@ export default function Auth({ onLoginSuccess }) {
       return;
     }
 
-    const users = JSON.parse(localStorage.getItem('registered_users') || '[]');
+    const users = registeredUsers;
     
     // Check if user already exists
     if (users.some(u => u.mobile === mobile)) {
@@ -70,16 +70,13 @@ export default function Auth({ onLoginSuccess }) {
       password
     };
 
-    users.push(newUser);
-    localStorage.setItem('registered_users', JSON.stringify(users));
-    
-    // Automatically log in
+    onRegisterUser(newUser);
     onLoginSuccess(newUser);
   };
 
   // Demo accounts for quick testing
   const handleDemoLogin = (roommateName, demoMobile) => {
-    const users = JSON.parse(localStorage.getItem('registered_users') || '[]');
+    const users = registeredUsers;
     let user = users.find(u => u.mobile === demoMobile);
 
     if (!user) {
@@ -90,8 +87,7 @@ export default function Auth({ onLoginSuccess }) {
         mobile: demoMobile,
         password: 'password123'
       };
-      users.push(user);
-      localStorage.setItem('registered_users', JSON.stringify(users));
+      onRegisterUser(user);
     }
 
     onLoginSuccess(user);

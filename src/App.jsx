@@ -7,7 +7,9 @@ import BazarModal from './components/BazarModal';
 import ContributionModal from './components/ContributionModal';
 import Auth from './components/Auth';
 import DocModal from './components/DocModal';
-import { Calendar, DollarSign, BarChart3, Receipt, Wallet2, Settings, Sparkles, LogOut, User } from 'lucide-react';
+import DbSettingsModal from './components/DbSettingsModal';
+import { fetchCloudData, updateCloudData } from './utils/db';
+import { Calendar, DollarSign, BarChart3, Receipt, Wallet2, Settings, Sparkles, LogOut, User, Cloud, CloudOff, CloudLightning, Database } from 'lucide-react';
 import './App.css';
 
 // Initial Mock Data
@@ -130,6 +132,21 @@ export default function App() {
     return INITIAL_CONTRIBUTIONS;
   });
 
+  // Registered Users State
+  const [registeredUsers, setRegisteredUsers] = useState(() => {
+    const saved = localStorage.getItem('registered_users');
+    return saved ? JSON.parse(saved) : [];
+  });
+
+  // Cloud Sync Settings States
+  const [dbApiKey, setDbApiKey] = useState(() => localStorage.getItem('db_api_key') || '');
+  const [dbBinId, setDbBinId] = useState(() => localStorage.getItem('db_bin_id') || '');
+  const [isCloudSyncing, setIsCloudSyncing] = useState(false);
+  const [cloudError, setCloudError] = useState('');
+  const [isDbSettingsOpen, setIsDbSettingsOpen] = useState(false);
+
+  const isCloudActive = !!(dbApiKey && dbBinId);
+
   // Modal controls
   const [isBazarOpen, setIsBazarOpen] = useState(false);
   const [isContributionOpen, setIsContributionOpen] = useState(false);
@@ -151,6 +168,76 @@ export default function App() {
   useEffect(() => {
     localStorage.setItem('base_contributions', JSON.stringify(baseContributions));
   }, [baseContributions]);
+
+  useEffect(() => {
+    localStorage.setItem('registered_users', JSON.stringify(registeredUsers));
+  }, [registeredUsers]);
+
+  // Cloud Sync API Actions
+  const pullFromCloud = async (key = dbApiKey, id = dbBinId) => {
+    if (!key || !id) return;
+    setIsCloudSyncing(true);
+    setCloudError('');
+    try {
+      const data = await fetchCloudData(key, id);
+      if (data) {
+        if (Array.isArray(data.bazarList)) {
+          setBazarList(data.bazarList);
+        }
+        if (data.baseContributions) {
+          setBaseContributions(data.baseContributions);
+        }
+        if (Array.isArray(data.registeredUsers)) {
+          setRegisteredUsers(data.registeredUsers);
+        }
+      }
+    } catch (err) {
+      console.error(err);
+      setCloudError(err.message || 'Failed to pull cloud database');
+    } finally {
+      setIsCloudSyncing(false);
+    }
+  };
+
+  const pushToCloud = async (list, contribs, users) => {
+    if (!dbApiKey || !dbBinId) return;
+    setIsCloudSyncing(true);
+    setCloudError('');
+    try {
+      await updateCloudData(dbApiKey, dbBinId, {
+        bazarList: list,
+        baseContributions: contribs,
+        registeredUsers: users,
+      });
+    } catch (err) {
+      console.error(err);
+      setCloudError(err.message || 'Failed to sync with cloud database');
+    } finally {
+      setIsCloudSyncing(false);
+    }
+  };
+
+  const handleSaveDbSettings = (key, id) => {
+    setDbApiKey(key);
+    setDbBinId(id);
+    if (key && id) {
+      localStorage.setItem('db_api_key', key);
+      localStorage.setItem('db_bin_id', id);
+      pullFromCloud(key, id);
+    } else {
+      localStorage.removeItem('db_api_key');
+      localStorage.removeItem('db_bin_id');
+      setDbApiKey('');
+      setDbBinId('');
+    }
+  };
+
+  // Initial pull if cloud is active
+  useEffect(() => {
+    if (isCloudActive) {
+      pullFromCloud();
+    }
+  }, []);
 
   // Calculate total bazar spent by each roommate
   const rezaBazarSpent = bazarList
@@ -199,11 +286,16 @@ export default function App() {
 
   // CRUD Bazar list operations
   const handleSaveBazar = (item) => {
+    let updated;
     if (editingItem) {
-      setBazarList(prev => prev.map(x => x.id === item.id ? item : x));
+      updated = bazarList.map(x => x.id === item.id ? item : x);
       setEditingItem(null);
     } else {
-      setBazarList(prev => [...prev, item]);
+      updated = [...bazarList, item];
+    }
+    setBazarList(updated);
+    if (isCloudActive) {
+      pushToCloud(updated, baseContributions, registeredUsers);
     }
   };
 
@@ -214,7 +306,11 @@ export default function App() {
 
   const handleDeleteBazar = (id) => {
     if (confirm('Are you sure you want to delete this bazar cost?')) {
-      setBazarList(prev => prev.filter(x => x.id !== id));
+      const updated = bazarList.filter(x => x.id !== id);
+      setBazarList(updated);
+      if (isCloudActive) {
+        pushToCloud(updated, baseContributions, registeredUsers);
+      }
     }
   };
 
@@ -226,6 +322,18 @@ export default function App() {
   // Save Contributions
   const handleSaveContributions = (updatedContributions) => {
     setBaseContributions(updatedContributions);
+    if (isCloudActive) {
+      pushToCloud(bazarList, updatedContributions, registeredUsers);
+    }
+  };
+
+  // Register user callback
+  const handleRegisterUser = (newUser) => {
+    const updatedUsers = [...registeredUsers, newUser];
+    setRegisteredUsers(updatedUsers);
+    if (isCloudActive) {
+      pushToCloud(bazarList, baseContributions, updatedUsers);
+    }
   };
 
   // Interactive Chart click navigation
@@ -243,7 +351,13 @@ export default function App() {
   };
 
   if (!currentUser) {
-    return <Auth onLoginSuccess={(user) => setCurrentUser(user)} />;
+    return (
+      <Auth 
+        onLoginSuccess={(user) => setCurrentUser(user)} 
+        registeredUsers={registeredUsers}
+        onRegisterUser={handleRegisterUser}
+      />
+    );
   }
 
   return (
@@ -273,6 +387,58 @@ export default function App() {
 
           {/* Quick Stats overview */}
           <div className="flex flex-wrap items-center gap-3 bg-slate-900/60 border border-slate-800 p-1.5 rounded-xl">
+            {/* Database status button */}
+            <button
+              onClick={() => setIsDbSettingsOpen(true)}
+              className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg border text-xs font-semibold transition-all ${
+                isCloudActive
+                  ? isCloudSyncing
+                    ? 'bg-amber-500/10 border-amber-500/20 text-amber-400 animate-pulse'
+                    : cloudError
+                      ? 'bg-rose-500/10 border-rose-500/20 text-rose-450'
+                      : 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400'
+                  : 'bg-slate-800 border-slate-700/50 text-slate-450 hover:text-slate-200'
+              }`}
+              title={isCloudActive ? (cloudError ? `Sync Error: ${cloudError}` : 'Cloud Synced. Click to configure settings.') : 'Configure External Storage'}
+            >
+              {isCloudActive ? (
+                isCloudSyncing ? (
+                  <>
+                    <CloudLightning className="w-3.5 h-3.5 animate-bounce text-amber-450" />
+                    <span>Syncing...</span>
+                  </>
+                ) : cloudError ? (
+                  <>
+                    <CloudOff className="w-3.5 h-3.5" />
+                    <span>Sync Error</span>
+                  </>
+                ) : (
+                  <>
+                    <Cloud className="w-3.5 h-3.5" />
+                    <span>Cloud Active</span>
+                  </>
+                )
+              ) : (
+                <>
+                  <CloudOff className="w-3.5 h-3.5" />
+                  <span>Local Mode</span>
+                </>
+              )}
+            </button>
+
+            {isCloudActive && (
+              <button
+                onClick={() => pullFromCloud()}
+                disabled={isCloudSyncing}
+                className="p-1.5 bg-slate-800 border border-slate-700/50 hover:bg-slate-700 rounded-lg text-slate-350 hover:text-white transition-colors"
+                title="Force Cloud Refresh"
+              >
+                <Database className={`w-3.5 h-3.5 ${isCloudSyncing ? 'animate-spin' : ''}`} />
+              </button>
+            )}
+
+            <div className="h-6 w-px bg-slate-800" />
+            
             <div className="px-3 py-1 flex items-center space-x-2 text-xs">
               <User className="w-4 h-4 text-indigo-400" />
               <div>
@@ -410,6 +576,15 @@ export default function App() {
         isOpen={!!docModalType}
         onClose={() => setDocModalType(null)}
         type={docModalType}
+      />
+
+      <DbSettingsModal
+        isOpen={isDbSettingsOpen}
+        onClose={() => setIsDbSettingsOpen(false)}
+        onSave={handleSaveDbSettings}
+        apiKey={dbApiKey}
+        binId={dbBinId}
+        isCloudActive={isCloudActive}
       />
     </div>
   );
