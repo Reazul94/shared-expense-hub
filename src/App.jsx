@@ -10,7 +10,7 @@ import DocModal from './components/DocModal';
 import DbSettingsModal from './components/DbSettingsModal';
 import StorageGuide from './components/StorageGuide';
 import { fetchCloudData, updateCloudData } from './utils/db';
-import { Calendar, DollarSign, BarChart3, Receipt, Wallet2, Settings, Sparkles, LogOut, User, Cloud, CloudOff, CloudLightning, Database } from 'lucide-react';
+import { Calendar, DollarSign, BarChart3, Receipt, Wallet2, Settings, Sparkles, LogOut, User, Cloud, CloudOff, CloudLightning, Database, HelpCircle } from 'lucide-react';
 import './App.css';
 
 // Initial Mock Data
@@ -506,6 +506,19 @@ export default function App() {
             </div>
             <div className="h-6 w-px bg-slate-800" />
             <button
+              onClick={() => setActiveTab('storage-guide')}
+              className={`flex items-center space-x-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg border transition-colors ${
+                activeTab === 'storage-guide'
+                  ? 'bg-indigo-500/20 border-indigo-500/30 text-indigo-400 font-bold'
+                  : 'bg-slate-800 border-slate-700/50 text-slate-350 hover:text-white'
+              }`}
+              title="View Instructions & Storage Guide"
+            >
+              <HelpCircle className="w-3.5 h-3.5 text-indigo-400" />
+              <span>Instruction</span>
+            </button>
+            <div className="h-6 w-px bg-slate-800" />
+            <button
               onClick={() => setIsContributionOpen(true)}
               className="px-3 py-1.5 bg-slate-800 text-xs font-semibold text-slate-300 hover:text-white rounded-lg transition-colors border border-slate-700/50"
             >
@@ -537,7 +550,7 @@ export default function App() {
               { id: 'gallery', label: 'Bazar Gallery', icon: Receipt },
               { id: 'payments', label: 'Payments & Settlement', icon: DollarSign },
               { id: 'analytics', label: 'Spending Analytics', icon: BarChart3 },
-              { id: 'storage-guide', label: 'Storage Guide', icon: Database },
+              { id: 'storage-guide', label: 'Instruction', icon: HelpCircle },
             ].map((tab) => {
               const Icon = tab.icon;
               return (
@@ -608,11 +621,26 @@ export default function App() {
         <footer className="pt-8 pb-4 border-t border-slate-800/60 flex flex-col sm:flex-row items-center justify-between text-[11px] text-slate-500 font-semibold gap-3">
           <span>&copy; {new Date().getFullYear()} Reazul. All Rights Reserved.</span>
           <div className="flex items-center space-x-4">
-            <span onClick={() => setActiveTab('storage-guide')} className="hover:text-slate-400 cursor-pointer text-indigo-400 hover:text-indigo-300">Instruction</span>
-            <span>&bull;</span>
-            <span onClick={() => setDocModalType('privacy')} className="hover:text-slate-400 cursor-pointer">Privacy Policy</span>
-            <span>&bull;</span>
-            <span onClick={() => setDocModalType('terms')} className="hover:text-slate-400 cursor-pointer">Terms of Service</span>
+            <button 
+              onClick={() => setActiveTab('storage-guide')} 
+              className="hover:text-indigo-300 text-indigo-400 font-bold transition-colors"
+            >
+              Instruction
+            </button>
+            <span className="text-slate-700">&bull;</span>
+            <button 
+              onClick={() => setDocModalType('privacy')} 
+              className="hover:text-slate-300 text-slate-400 font-semibold transition-colors"
+            >
+              Privacy Policy
+            </button>
+            <span className="text-slate-700">&bull;</span>
+            <button 
+              onClick={() => setDocModalType('terms')} 
+              className="hover:text-slate-300 text-slate-400 font-semibold transition-colors"
+            >
+              Terms of Service
+            </button>
           </div>
         </footer>
       </div>

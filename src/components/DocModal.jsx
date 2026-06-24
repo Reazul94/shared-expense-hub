@@ -31,44 +31,98 @@ export default function DocModal({ isOpen, onClose, type }) {
         </div>
 
         {/* Content */}
-        <div className="p-6 max-h-[400px] overflow-y-auto text-sm text-slate-300 space-y-4 leading-relaxed">
+        <div className="p-6 max-h-[420px] overflow-y-auto text-sm text-slate-300 space-y-5 leading-relaxed scrollbar-thin">
           {isPrivacy ? (
             <>
-              <p className="font-semibold text-white">1. Data Storage & Privacy Options</p>
-              <p>
-                This application supports two data storage modes:
-              </p>
-              <ul className="list-disc list-inside space-y-1 pl-2">
-                <li><strong>Local Storage (Offline)</strong>: By default, all bazar lists, user logins, and roommate contributions are stored entirely client-side in your browser's local cache (<code>localStorage</code>). No data is transmitted to external servers.</li>
-                <li><strong>Cloud Sync Mode (External Database)</strong>: If you configure external storage, your data is synced in real-time with your personal bin on JSONBin.io. Your credentials (API Key and Bin ID) are stored only in your local browser cache to enable direct API communication.</li>
-              </ul>
-              <p className="font-semibold text-white">2. Third-Party Integrations & Security</p>
-              <p>
-                We do not track, collect, or store your JSONBin API credentials or personal expense data. All traffic to JSONBin.io is executed directly from your web browser using HTTPS encryption. Export operations (PDF and Excel generation) are executed completely in-memory inside your browser without contacting external APIs.
-              </p>
-              <p className="font-semibold text-white">3. Clear Cached Data</p>
-              <p>
-                Clearing your browser cache or site data will reset your offline logs and disconnect any active Cloud Sync configurations.
-              </p>
+              <div>
+                <p className="font-bold text-white mb-1.5 flex items-center space-x-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-indigo-400"></span>
+                  <span>1. Data Storage & Privacy Options</span>
+                </p>
+                <p className="text-slate-400 mb-2">
+                  This application supports two distinct data storage modes to give you full control over your privacy:
+                </p>
+                <ul className="space-y-2 pl-3">
+                  <li className="text-slate-300">
+                    <strong className="text-indigo-400">Local Storage (Offline):</strong> By default, all bazar lists, user logins, and roommate contributions are stored entirely client-side in your browser's local cache (<code>localStorage</code>). No data is transmitted to external servers.
+                  </li>
+                  <li className="text-slate-300">
+                    <strong className="text-emerald-400">Cloud Sync Mode (External Database):</strong> If you configure external storage, your data is synced in real-time with your personal bin on JSONBin.io. Your credentials (API Key and Bin ID) are stored only in your local browser cache to enable direct API communication.
+                  </li>
+                </ul>
+              </div>
+
+              <div>
+                <p className="font-bold text-white mb-1.5 flex items-center space-x-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-indigo-400"></span>
+                  <span>2. Third-Party Integrations & Security</span>
+                </p>
+                <p className="text-slate-400">
+                  We do not track, collect, or store your JSONBin API credentials or personal expense data. All traffic to JSONBin.io is executed directly from your web browser using HTTPS encryption. Export operations (PDF and Excel generation) are executed completely in-memory inside your browser without contacting external APIs.
+                </p>
+              </div>
+
+              <div>
+                <p className="font-bold text-white mb-1.5 flex items-center space-x-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-indigo-400"></span>
+                  <span>3. Clear Cached Data</span>
+                </p>
+                <p className="text-slate-400">
+                  Clearing your browser cache or site data will reset your offline logs and disconnect any active Cloud Sync configurations. Make sure to back up your data or keep cloud credentials safe before clearing cache.
+                </p>
+              </div>
+
+              <div>
+                <p className="font-bold text-white mb-1.5 flex items-center space-x-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-indigo-400"></span>
+                  <span>4. Transparency & Contact</span>
+                </p>
+                <p className="text-slate-400">
+                  For questions, security concerns, or bug reports regarding this Expense Hub, please contact the developer (<strong className="text-indigo-400">Reazul</strong>) directly or submit an issue on the project's GitHub repository.
+                </p>
+              </div>
             </>
           ) : (
             <>
-              <p className="font-semibold text-white">1. Agreement to Terms</p>
-              <p>
-                By using this Shared Expense Tracker, you agree to track house grocer expenses and settle balances according to these terms. This utility is provided solely for convenience.
-              </p>
-              <p className="font-semibold text-white">2. Split Calculations Ratio</p>
-              <p>
-                Splits are calculated based on the fixed ratio configured for roommates <strong>Reza</strong> (split weight: <strong>58.33%</strong>) and <strong>Reaz</strong> (split weight: <strong>41.67%</strong>).
-              </p>
-              <p className="font-semibold text-white">3. Data Backups & Cloud Sync Responsibility</p>
-              <p>
-                When using Local Storage, you risk data loss if you clear browser caches. When using Cloud Sync Mode, you are solely responsible for creating and securing your own JSONBin.io account, API keys, and database bins. We do not provide backup restoration services.
-              </p>
-              <p className="font-semibold text-white">4. License & Attribution</p>
-              <p>
-                This software is open source under the MIT License. The creator (Reazul) and contributors provide this code "as is" without warranties of any kind.
-              </p>
+              <div>
+                <p className="font-bold text-white mb-1.5 flex items-center space-x-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-indigo-400"></span>
+                  <span>1. Agreement to Terms</span>
+                </p>
+                <p className="text-slate-400">
+                  By using this Shared Expense Tracker, you agree to track house grocer expenses and settle balances according to these terms. This utility is provided solely for convenience and cooperative living organization.
+                </p>
+              </div>
+
+              <div>
+                <p className="font-bold text-white mb-1.5 flex items-center space-x-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-indigo-400"></span>
+                  <span>2. Split Calculations Ratio</span>
+                </p>
+                <p className="text-slate-400">
+                  Splits are calculated based on the fixed ratio configured for roommates <strong className="text-white">Reza</strong> (split weight: <strong className="text-indigo-400">58.33%</strong>) and <strong className="text-white">Reaz</strong> (split weight: <strong className="text-emerald-400">41.67%</strong>).
+                </p>
+              </div>
+
+              <div>
+                <p className="font-bold text-white mb-1.5 flex items-center space-x-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-indigo-400"></span>
+                  <span>3. Data Backups & Cloud Sync Responsibility</span>
+                </p>
+                <p className="text-slate-400">
+                  When using Local Storage, you risk data loss if you clear browser caches. When using Cloud Sync Mode, you are solely responsible for creating and securing your own JSONBin.io account, API keys, and database bins. We do not provide backup restoration services or database hosting.
+                </p>
+              </div>
+
+              <div>
+                <p className="font-bold text-white mb-1.5 flex items-center space-x-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-indigo-400"></span>
+                  <span>4. License & Attribution</span>
+                </p>
+                <p className="text-slate-400">
+                  This software is open source under the MIT License. The creator (<strong className="text-indigo-400">Reazul</strong>) and contributors provide this code "as is" without warranties of any kind.
+                </p>
+              </div>
             </>
           )}
         </div>
