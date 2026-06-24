@@ -8,6 +8,7 @@ import ContributionModal from './components/ContributionModal';
 import Auth from './components/Auth';
 import DocModal from './components/DocModal';
 import DbSettingsModal from './components/DbSettingsModal';
+import StorageGuide from './components/StorageGuide';
 import { fetchCloudData, updateCloudData } from './utils/db';
 import { Calendar, DollarSign, BarChart3, Receipt, Wallet2, Settings, Sparkles, LogOut, User, Cloud, CloudOff, CloudLightning, Database } from 'lucide-react';
 import './App.css';
@@ -536,6 +537,7 @@ export default function App() {
               { id: 'gallery', label: 'Bazar Gallery', icon: Receipt },
               { id: 'payments', label: 'Payments & Settlement', icon: DollarSign },
               { id: 'analytics', label: 'Spending Analytics', icon: BarChart3 },
+              { id: 'storage-guide', label: 'Storage Guide', icon: Database },
             ].map((tab) => {
               const Icon = tab.icon;
               return (
@@ -591,6 +593,13 @@ export default function App() {
             <AnalyticsTab
               bazarList={bazarList}
               onBarClick={handleBarClick}
+            />
+          )}
+
+          {activeTab === 'storage-guide' && (
+            <StorageGuide
+              isCloudActive={isCloudActive}
+              onOpenSettings={() => setIsDbSettingsOpen(true)}
             />
           )}
         </main>
