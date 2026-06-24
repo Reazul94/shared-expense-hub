@@ -24,7 +24,7 @@ export default function StorageGuide({ isCloudActive, onOpenSettings }) {
 
         <div className="flex flex-col lg:flex-row items-stretch justify-between gap-3 lg:gap-2">
           {/* Step 1 */}
-          <div className="w-full lg:flex-1 p-4 rounded-2xl bg-slate-950/45 border border-slate-850 hover:border-slate-800 transition-colors flex flex-col justify-between gap-3">
+          <div className="w-full lg:flex-1 p-4 rounded-2xl bg-slate-950/45 border border-slate-850 hover:border-slate-800 hover:scale-[1.04] hover:shadow-lg hover:shadow-indigo-500/5 transition-all duration-300 flex flex-col justify-between gap-3 cursor-default">
             <div className="flex items-center justify-between">
               <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-400">Step 1</span>
               <UserCheck className="w-4 h-4 text-indigo-400" />
@@ -42,7 +42,7 @@ export default function StorageGuide({ isCloudActive, onOpenSettings }) {
           </div>
 
           {/* Step 2 */}
-          <div className="w-full lg:flex-1 p-4 rounded-2xl bg-slate-950/45 border border-slate-850 hover:border-slate-800 transition-colors flex flex-col justify-between gap-3">
+          <div className="w-full lg:flex-1 p-4 rounded-2xl bg-slate-950/45 border border-slate-850 hover:border-slate-800 hover:scale-[1.04] hover:shadow-lg hover:shadow-amber-500/5 transition-all duration-300 flex flex-col justify-between gap-3 cursor-default">
             <div className="flex items-center justify-between">
               <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded bg-amber-500/10 text-amber-400">Step 2</span>
               <Database className="w-4 h-4 text-amber-400" />
@@ -60,7 +60,7 @@ export default function StorageGuide({ isCloudActive, onOpenSettings }) {
           </div>
 
           {/* Step 3 */}
-          <div className="w-full lg:flex-1 p-4 rounded-2xl bg-slate-950/45 border border-slate-850 hover:border-slate-800 transition-colors flex flex-col justify-between gap-3">
+          <div className="w-full lg:flex-1 p-4 rounded-2xl bg-slate-950/45 border border-slate-850 hover:border-slate-800 hover:scale-[1.04] hover:shadow-lg hover:shadow-emerald-500/5 transition-all duration-300 flex flex-col justify-between gap-3 cursor-default">
             <div className="flex items-center justify-between">
               <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400">Step 3</span>
               <ShoppingCart className="w-4 h-4 text-emerald-400" />
@@ -78,7 +78,7 @@ export default function StorageGuide({ isCloudActive, onOpenSettings }) {
           </div>
 
           {/* Step 4 */}
-          <div className="w-full lg:flex-1 p-4 rounded-2xl bg-slate-950/45 border border-slate-850 hover:border-slate-800 transition-colors flex flex-col justify-between gap-3">
+          <div className="w-full lg:flex-1 p-4 rounded-2xl bg-slate-950/45 border border-slate-850 hover:border-slate-800 hover:scale-[1.04] hover:shadow-lg hover:shadow-sky-500/5 transition-all duration-300 flex flex-col justify-between gap-3 cursor-default">
             <div className="flex items-center justify-between">
               <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded bg-sky-500/10 text-sky-400">Step 4</span>
               <Wallet className="w-4 h-4 text-sky-400" />
@@ -96,7 +96,7 @@ export default function StorageGuide({ isCloudActive, onOpenSettings }) {
           </div>
 
           {/* Step 5 */}
-          <div className="w-full lg:flex-1 p-4 rounded-2xl bg-slate-950/45 border border-slate-850 hover:border-slate-800 transition-colors flex flex-col justify-between gap-3">
+          <div className="w-full lg:flex-1 p-4 rounded-2xl bg-slate-950/45 border border-slate-850 hover:border-slate-800 hover:scale-[1.04] hover:shadow-lg hover:shadow-indigo-500/5 transition-all duration-300 flex flex-col justify-between gap-3 cursor-default">
             <div className="flex items-center justify-between">
               <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-400">Step 5</span>
               <Scale className="w-4 h-4 text-indigo-400" />

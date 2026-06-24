@@ -508,7 +508,15 @@ export default function App() {
             </div>
             <div className="h-6 w-px bg-slate-800" />
             <button
-              onClick={() => setActiveTab('storage-guide')}
+              onClick={() => {
+                setActiveTab('storage-guide');
+                setTimeout(() => {
+                  const el = document.getElementById('navigation-tabs-section');
+                  if (el) {
+                    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  }
+                }, 50);
+              }}
               className={`flex items-center space-x-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg border transition-colors ${
                 activeTab === 'storage-guide'
                   ? 'bg-indigo-500/20 border-indigo-500/30 text-indigo-400 font-bold'
@@ -546,7 +554,7 @@ export default function App() {
         />
 
         {/* Navigation Tabs Switcher */}
-        <div className="flex items-center justify-between border-b border-slate-800/80 pb-px">
+        <div id="navigation-tabs-section" className="flex items-center justify-between border-b border-slate-800/80 pb-px">
           <div className="flex space-x-2">
             {[
               { id: 'gallery', label: 'Bazar Gallery', icon: Receipt },
@@ -558,7 +566,15 @@ export default function App() {
               return (
                 <button
                   key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
+                  onClick={() => {
+                    setActiveTab(tab.id);
+                    setTimeout(() => {
+                      const el = document.getElementById('navigation-tabs-section');
+                      if (el) {
+                        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                      }
+                    }, 50);
+                  }}
                   className={`flex items-center space-x-2 px-4 py-3 text-sm font-bold border-b-2 transition-all relative ${
                     activeTab === tab.id
                       ? 'border-indigo-500 text-indigo-400'
@@ -624,7 +640,15 @@ export default function App() {
           <span>&copy; {new Date().getFullYear()} Reazul. All Rights Reserved.</span>
           <div className="flex items-center space-x-4">
             <button 
-              onClick={() => setActiveTab('storage-guide')} 
+              onClick={() => {
+                setActiveTab('storage-guide');
+                setTimeout(() => {
+                  const el = document.getElementById('navigation-tabs-section');
+                  if (el) {
+                    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  }
+                }, 50);
+              }}
               className="hover:text-indigo-300 text-indigo-400 font-bold transition-colors"
             >
               Instruction
