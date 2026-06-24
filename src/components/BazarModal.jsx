@@ -3,20 +3,20 @@ import { X, Calendar, DollarSign, User, FileText } from 'lucide-react';
 
 export default function BazarModal({ isOpen, onClose, onSave, item }) {
   const [date, setDate] = useState('');
-  const [buyer, setBuyer] = useState('Vaia');
+  const [buyer, setBuyer] = useState('Reza');
   const [cost, setCost] = useState('');
   const [note, setNote] = useState('');
 
   useEffect(() => {
     if (item && item.id) {
       setDate(item.date || '');
-      setBuyer(item.buyer || 'Vaia');
+      setBuyer(item.buyer || 'Reza');
       setCost(item.cost !== undefined && item.cost !== null ? item.cost.toString() : '');
       setNote(item.note || '');
     } else {
       const today = item && item.date ? item.date : new Date().toISOString().split('T')[0];
       setDate(today);
-      setBuyer('Vaia');
+      setBuyer('Reza');
       setCost('');
       setNote('');
     }
@@ -83,8 +83,8 @@ export default function BazarModal({ isOpen, onClose, onSave, item }) {
                 onChange={(e) => setBuyer(e.target.value)}
                 className="w-full pl-10 pr-4 py-2 bg-slate-950 border border-slate-800 rounded-xl text-white focus:outline-none focus:border-indigo-500 transition-colors appearance-none"
               >
-                <option value="Vaia">Vaia</option>
-                <option value="Reazul">Reazul</option>
+                <option value="Reza">Reza</option>
+                <option value="Reaz">Reaz</option>
                 <option value="Shared">Shared (Split Equally)</option>
               </select>
             </div>

@@ -19,16 +19,16 @@ export default function AnalyticsTab({ bazarList, onBarClick }) {
   // Aggregate spending by day and by buyer
   const dailySpending = days.map((date) => {
     const dayItems = bazarList.filter((item) => item.date === date);
-    const vaia = dayItems.filter((i) => i.buyer === 'Vaia').reduce((sum, i) => sum + i.cost, 0);
-    const reazul = dayItems.filter((i) => i.buyer === 'Reazul').reduce((sum, i) => sum + i.cost, 0);
+    const reza = dayItems.filter((i) => i.buyer === 'Reza').reduce((sum, i) => sum + i.cost, 0);
+    const reaz = dayItems.filter((i) => i.buyer === 'Reaz').reduce((sum, i) => sum + i.cost, 0);
     const shared = dayItems.filter((i) => i.buyer === 'Shared').reduce((sum, i) => sum + i.cost, 0);
-    const total = vaia + reazul + shared;
+    const total = reza + reaz + shared;
 
     return {
       date,
       dayNum: parseInt(date.split('-')[2]),
-      vaia,
-      reazul,
+      reza,
+      reaz,
       shared,
       total,
       hasRecords: dayItems.length > 0,
@@ -43,8 +43,8 @@ export default function AnalyticsTab({ bazarList, onBarClick }) {
   const percentageDaysRecorded = (recordedDaysCount / 30) * 100;
 
   // Roommate totals
-  const totalVaiaSpent = bazarList.filter((i) => i.buyer === 'Vaia').reduce((sum, i) => sum + i.cost, 0);
-  const totalReazulSpent = bazarList.filter((i) => i.buyer === 'Reazul').reduce((sum, i) => sum + i.cost, 0);
+  const totalRezaSpent = bazarList.filter((i) => i.buyer === 'Reza').reduce((sum, i) => sum + i.cost, 0);
+  const totalReazSpent = bazarList.filter((i) => i.buyer === 'Reaz').reduce((sum, i) => sum + i.cost, 0);
   const totalSharedSpent = bazarList.filter((i) => i.buyer === 'Shared').reduce((sum, i) => sum + i.cost, 0);
 
   // Chart layout config
@@ -91,10 +91,10 @@ export default function AnalyticsTab({ bazarList, onBarClick }) {
             <BarChart3 className="w-5 h-5 text-fuchsia-400" />
           </div>
           <p className="text-2xl font-black text-white">
-            {totalVaiaSpent >= totalReazulSpent ? 'Vaia' : 'Reazul'}
+            {totalRezaSpent >= totalReazSpent ? 'Reza' : 'Reaz'}
           </p>
           <p className="text-[10px] text-slate-500 mt-1">
-            Vaia: ৳ {totalVaiaSpent.toLocaleString()} | Reazul: ৳ {totalReazulSpent.toLocaleString()}
+            Reza: ৳ {totalRezaSpent.toLocaleString()} | Reaz: ৳ {totalReazSpent.toLocaleString()}
           </p>
         </div>
       </div>
@@ -110,11 +110,11 @@ export default function AnalyticsTab({ bazarList, onBarClick }) {
         <div className="flex items-center space-x-4 mb-4 text-xs">
           <div className="flex items-center space-x-1.5">
             <span className="w-3 h-3 rounded-md bg-indigo-500 block" />
-            <span className="text-slate-300">Vaia</span>
+            <span className="text-slate-300">Reza</span>
           </div>
           <div className="flex items-center space-x-1.5">
             <span className="w-3 h-3 rounded-md bg-emerald-500 block" />
-            <span className="text-slate-300">Reazul</span>
+            <span className="text-slate-300">Reaz</span>
           </div>
           <div className="flex items-center space-x-1.5">
             <span className="w-3 h-3 rounded-md bg-amber-500 block" />
@@ -164,16 +164,16 @@ export default function AnalyticsTab({ bazarList, onBarClick }) {
                 const x = 40 + index * (barWidth + gap);
 
                 // Math for stacked portions
-                const yVaia = chartInnerHeight * (d.vaia / maxDayTotal);
-                const yReazul = chartInnerHeight * (d.reazul / maxDayTotal);
+                const yReza = chartInnerHeight * (d.reza / maxDayTotal);
+                const yReaz = chartInnerHeight * (d.reaz / maxDayTotal);
                 const yShared = chartInnerHeight * (d.shared / maxDayTotal);
-                const yTotal = yVaia + yReazul + yShared;
+                const yTotal = yReza + yReaz + yShared;
 
                 // Absolute positions
                 const startY = chartHeight - paddingBottom;
                 const sharedY = startY - yShared;
-                const reazulY = sharedY - yReazul;
-                const vaiaY = reazulY - yVaia;
+                const reazY = sharedY - yReaz;
+                const rezaY = reazY - yReza;
 
                 const isHovered = hoveredBar === index;
 
@@ -198,26 +198,26 @@ export default function AnalyticsTab({ bazarList, onBarClick }) {
                       />
                     )}
 
-                    {/* Reazul Portion (Middle) */}
-                    {d.reazul > 0 && (
+                    {/* Reaz Portion (Middle) */}
+                    {d.reaz > 0 && (
                       <rect
                         x={x}
-                        y={reazulY}
+                        y={reazY}
                         width={barWidth}
-                        height={yReazul}
+                        height={yReaz}
                         fill="#10b981"
                         className="transition-all duration-300"
                         opacity={isHovered ? 0.95 : 0.8}
                       />
                     )}
 
-                    {/* Vaia Portion (Top) */}
-                    {d.vaia > 0 && (
+                    {/* Reza Portion (Top) */}
+                    {d.reza > 0 && (
                       <rect
                         x={x}
-                        y={vaiaY}
+                        y={rezaY}
                         width={barWidth}
-                        height={yVaia}
+                        height={yReza}
                         fill="#6366f1"
                         className="transition-all duration-300"
                         opacity={isHovered ? 0.95 : 0.8}
@@ -271,8 +271,8 @@ export default function AnalyticsTab({ bazarList, onBarClick }) {
                 <span className="text-indigo-400 font-bold ml-1 text-sm">৳{dailySpending[hoveredBar].total.toFixed(2)}</span>
               </div>
               <div className="flex items-center space-x-3 text-slate-400">
-                <span>Vaia: <strong className="text-indigo-400">৳{dailySpending[hoveredBar].vaia}</strong></span>
-                <span>Reazul: <strong className="text-emerald-400">৳{dailySpending[hoveredBar].reazul}</strong></span>
+                <span>Reza: <strong className="text-indigo-400">৳{dailySpending[hoveredBar].reza}</strong></span>
+                <span>Reaz: <strong className="text-emerald-400">৳{dailySpending[hoveredBar].reaz}</strong></span>
                 <span>Shared: <strong className="text-amber-400">৳{dailySpending[hoveredBar].shared}</strong></span>
               </div>
             </>

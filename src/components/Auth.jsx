@@ -191,7 +191,7 @@ export default function Auth({ onLoginSuccess }) {
                 <input
                   type="text"
                   required
-                  placeholder="e.g. Reazul"
+                  placeholder="e.g. Reaz"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   className="w-full pl-10 pr-4 py-2.5 bg-slate-950/80 border border-slate-800 rounded-xl text-sm text-white focus:outline-none focus:border-indigo-500 transition-colors placeholder-slate-600"
@@ -263,16 +263,16 @@ export default function Auth({ onLoginSuccess }) {
         {/* Demo buttons */}
         <div className="grid grid-cols-2 gap-3 w-full">
           <button
-            onClick={() => handleDemoLogin('Vaia', '01711111111')}
+            onClick={() => handleDemoLogin('Reza', '01711111111')}
             className="py-2 bg-indigo-500/10 hover:bg-indigo-500/15 border border-indigo-500/20 text-indigo-400 hover:text-indigo-300 font-semibold text-xs rounded-xl transition-colors"
           >
-            Log in as Vaia
+            Log in as Reza
           </button>
           <button
-            onClick={() => handleDemoLogin('Reazul', '01822222222')}
+            onClick={() => handleDemoLogin('Reaz', '01822222222')}
             className="py-2 bg-emerald-500/10 hover:bg-emerald-500/15 border border-emerald-500/20 text-emerald-400 hover:text-emerald-300 font-semibold text-xs rounded-xl transition-colors"
           >
-            Log in as Reazul
+            Log in as Reaz
           </button>
         </div>
       </div>

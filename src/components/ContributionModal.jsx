@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { X, DollarSign, Sparkles } from 'lucide-react';
 
 export default function ContributionModal({ isOpen, onClose, onSave, contributions }) {
-  const [vaiaPaid, setVaiaPaid] = useState('');
-  const [reazulPaid, setReazulPaid] = useState('');
+  const [rezaPaid, setRezaPaid] = useState('');
+  const [reazPaid, setReazPaid] = useState('');
 
   useEffect(() => {
     if (contributions) {
-      setVaiaPaid(contributions.Vaia.toString());
-      setReazulPaid(contributions.Reazul.toString());
+      setRezaPaid(contributions.Reza.toString());
+      setReazPaid(contributions.Reaz.toString());
     }
   }, [contributions, isOpen]);
 
@@ -16,8 +16,8 @@ export default function ContributionModal({ isOpen, onClose, onSave, contributio
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const vVal = parseFloat(vaiaPaid);
-    const rVal = parseFloat(reazulPaid);
+    const vVal = parseFloat(rezaPaid);
+    const rVal = parseFloat(reazPaid);
 
     if (isNaN(vVal) || vVal < 0 || isNaN(rVal) || rVal < 0) {
       alert('Please enter valid positive amounts.');
@@ -25,8 +25,8 @@ export default function ContributionModal({ isOpen, onClose, onSave, contributio
     }
 
     onSave({
-      Vaia: vVal,
-      Reazul: rVal,
+      Reza: vVal,
+      Reaz: rVal,
     });
     onClose();
   };
@@ -53,13 +53,13 @@ export default function ContributionModal({ isOpen, onClose, onSave, contributio
         {/* Form */}
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
           <p className="text-sm text-slate-400">
-            Update the cash contributed by each roommate to the house fund this month. This pool is split based on the fixed ratio (Vaia: 58.33%, Reazul: 41.67%).
+            Update the cash contributed by each roommate to the house fund this month. This pool is split based on the fixed ratio (Reza: 58.33%, Reaz: 41.67%).
           </p>
 
-          {/* Vaia Contribution */}
+          {/* Reza Contribution */}
           <div>
             <label className="block mb-2 text-sm font-medium text-indigo-300">
-              Vaia Paid Amount (৳)
+              Reza Paid Amount (৳)
             </label>
             <div className="relative">
               <span className="absolute left-3 top-2.5 text-indigo-400 font-semibold">৳</span>
@@ -69,17 +69,17 @@ export default function ContributionModal({ isOpen, onClose, onSave, contributio
                 required
                 min="0"
                 placeholder="0.00"
-                value={vaiaPaid}
-                onChange={(e) => setVaiaPaid(e.target.value)}
+                value={rezaPaid}
+                onChange={(e) => setRezaPaid(e.target.value)}
                 className="w-full pl-10 pr-4 py-2 bg-slate-950 border border-slate-800 rounded-xl text-white focus:outline-none focus:border-indigo-500 transition-colors"
               />
             </div>
           </div>
 
-          {/* Reazul Contribution */}
+          {/* Reaz Contribution */}
           <div>
             <label className="block mb-2 text-sm font-medium text-emerald-300">
-              Reazul Paid Amount (৳)
+              Reaz Paid Amount (৳)
             </label>
             <div className="relative">
               <span className="absolute left-3 top-2.5 text-emerald-400 font-semibold">৳</span>
@@ -89,8 +89,8 @@ export default function ContributionModal({ isOpen, onClose, onSave, contributio
                 required
                 min="0"
                 placeholder="0.00"
-                value={reazulPaid}
-                onChange={(e) => setReazulPaid(e.target.value)}
+                value={reazPaid}
+                onChange={(e) => setReazPaid(e.target.value)}
                 className="w-full pl-10 pr-4 py-2 bg-slate-950 border border-slate-800 rounded-xl text-white focus:outline-none focus:border-emerald-500 transition-colors"
               />
             </div>

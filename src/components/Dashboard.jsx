@@ -40,20 +40,20 @@ export default function Dashboard({ contributions, calculations, onEditContribut
             style={{ width: '58.33%' }}
             className="h-full bg-gradient-to-r from-indigo-600 to-indigo-500 flex items-center justify-center text-[10px] font-bold text-white transition-all duration-500 relative"
           >
-            <span>Vaia (58.33%)</span>
+            <span>Reza (58.33%)</span>
           </div>
           <div 
             style={{ width: '41.67%' }}
             className="h-full bg-gradient-to-r from-emerald-600 to-emerald-500 flex items-center justify-center text-[10px] font-bold text-white transition-all duration-500 relative"
           >
-            <span>Reazul (41.67%)</span>
+            <span>Reaz (41.67%)</span>
           </div>
         </div>
       </div>
 
       {/* Roommate Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-        {/* Roommate A: Vaia */}
+        {/* Roommate A: Reza */}
         <div className="relative overflow-hidden rounded-2xl glass-panel p-6 border border-slate-800/80 hover:border-slate-700 transition-all group duration-300">
           <div className="absolute top-0 right-0 w-24 h-24 bg-indigo-500/5 rounded-bl-full pointer-events-none group-hover:bg-indigo-500/10 transition-colors" />
           
@@ -63,45 +63,45 @@ export default function Dashboard({ contributions, calculations, onEditContribut
                 V
               </div>
               <div>
-                <h3 className="font-bold text-white text-lg">Vaia</h3>
+                <h3 className="font-bold text-white text-lg">Reza</h3>
                 <p className="text-xs text-slate-400">Split Weight: 58.33%</p>
               </div>
             </div>
-            <span className={`px-2.5 py-1 text-xs font-semibold rounded-lg border ${getStatusColorClass(balance.Vaia)}`}>
-              {getStatusText(balance.Vaia)}
+            <span className={`px-2.5 py-1 text-xs font-semibold rounded-lg border ${getStatusColorClass(balance.Reza)}`}>
+              {getStatusText(balance.Reza)}
             </span>
           </div>
 
           <div className="grid grid-cols-2 gap-4 mt-6">
             <div className="bg-slate-950/40 rounded-xl p-3 border border-slate-900/50">
               <span className="text-[10px] uppercase font-bold tracking-wider text-slate-500">Paid Contribution</span>
-              <p className="text-lg font-bold text-white mt-1">৳ {contributions.Vaia.toLocaleString()}</p>
+              <p className="text-lg font-bold text-white mt-1">৳ {contributions.Reza.toLocaleString()}</p>
             </div>
             <div className="bg-slate-950/40 rounded-xl p-3 border border-slate-900/50">
               <span className="text-[10px] uppercase font-bold tracking-wider text-slate-500">Target Share</span>
-              <p className="text-lg font-semibold text-slate-300 mt-1">৳ {Math.round(targetShare.Vaia).toLocaleString()}</p>
+              <p className="text-lg font-semibold text-slate-300 mt-1">৳ {Math.round(targetShare.Reza).toLocaleString()}</p>
             </div>
           </div>
 
           <div className="mt-4 pt-4 border-t border-slate-800/50 flex items-center justify-between">
             <span className="text-xs font-medium text-slate-400">Balance Status</span>
-            <div className={`flex items-center space-x-1 font-bold text-sm ${balance.Vaia >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
-              {balance.Vaia >= 0 ? (
+            <div className={`flex items-center space-x-1 font-bold text-sm ${balance.Reza >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
+              {balance.Reza >= 0 ? (
                 <>
                   <ArrowUpRight className="w-4 h-4" />
-                  <span>+৳ {balance.Vaia.toFixed(2)}</span>
+                  <span>+৳ {balance.Reza.toFixed(2)}</span>
                 </>
               ) : (
                 <>
                   <ArrowDownRight className="w-4 h-4" />
-                  <span>-৳ {Math.abs(balance.Vaia).toFixed(2)}</span>
+                  <span>-৳ {Math.abs(balance.Reza).toFixed(2)}</span>
                 </>
               )}
             </div>
           </div>
         </div>
 
-        {/* Roommate B: Reazul */}
+        {/* Roommate B: Reaz */}
         <div className="relative overflow-hidden rounded-2xl glass-panel p-6 border border-slate-800/80 hover:border-slate-700 transition-all group duration-300">
           <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-500/5 rounded-bl-full pointer-events-none group-hover:bg-emerald-500/10 transition-colors" />
           
@@ -111,38 +111,38 @@ export default function Dashboard({ contributions, calculations, onEditContribut
                 R
               </div>
               <div>
-                <h3 className="font-bold text-white text-lg">Reazul</h3>
+                <h3 className="font-bold text-white text-lg">Reaz</h3>
                 <p className="text-xs text-slate-400">Split Weight: 41.67%</p>
               </div>
             </div>
-            <span className={`px-2.5 py-1 text-xs font-semibold rounded-lg border ${getStatusColorClass(balance.Reazul)}`}>
-              {getStatusText(balance.Reazul)}
+            <span className={`px-2.5 py-1 text-xs font-semibold rounded-lg border ${getStatusColorClass(balance.Reaz)}`}>
+              {getStatusText(balance.Reaz)}
             </span>
           </div>
 
           <div className="grid grid-cols-2 gap-4 mt-6">
             <div className="bg-slate-950/40 rounded-xl p-3 border border-slate-900/50">
               <span className="text-[10px] uppercase font-bold tracking-wider text-slate-500">Paid Contribution</span>
-              <p className="text-lg font-bold text-white mt-1">৳ {contributions.Reazul.toLocaleString()}</p>
+              <p className="text-lg font-bold text-white mt-1">৳ {contributions.Reaz.toLocaleString()}</p>
             </div>
             <div className="bg-slate-950/40 rounded-xl p-3 border border-slate-900/50">
               <span className="text-[10px] uppercase font-bold tracking-wider text-slate-500">Target Share</span>
-              <p className="text-lg font-semibold text-slate-300 mt-1">৳ {Math.round(targetShare.Reazul).toLocaleString()}</p>
+              <p className="text-lg font-semibold text-slate-300 mt-1">৳ {Math.round(targetShare.Reaz).toLocaleString()}</p>
             </div>
           </div>
 
           <div className="mt-4 pt-4 border-t border-slate-800/50 flex items-center justify-between">
             <span className="text-xs font-medium text-slate-400">Balance Status</span>
-            <div className={`flex items-center space-x-1 font-bold text-sm ${balance.Reazul >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
-              {balance.Reazul >= 0 ? (
+            <div className={`flex items-center space-x-1 font-bold text-sm ${balance.Reaz >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
+              {balance.Reaz >= 0 ? (
                 <>
                   <ArrowUpRight className="w-4 h-4" />
-                  <span>+৳ {balance.Reazul.toFixed(2)}</span>
+                  <span>+৳ {balance.Reaz.toFixed(2)}</span>
                 </>
               ) : (
                 <>
                   <ArrowDownRight className="w-4 h-4" />
-                  <span>-৳ {Math.abs(balance.Reazul).toFixed(2)}</span>
+                  <span>-৳ {Math.abs(balance.Reaz).toFixed(2)}</span>
                 </>
               )}
             </div>

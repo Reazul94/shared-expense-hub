@@ -11,19 +11,19 @@ import './App.css';
 
 // Initial Mock Data
 const INITIAL_BAZAR_DATA = [
-  { id: 1, date: '2026-06-01', buyer: 'Vaia', cost: 1200, note: 'Daily Groceries (Rice, Lentils, Oil)' },
-  { id: 2, date: '2026-06-03', buyer: 'Reazul', cost: 850, note: 'Fresh Chicken & Eggs' },
-  { id: 3, date: '2026-06-05', buyer: 'Vaia', cost: 1500, note: 'Fish and Fresh Vegetables' },
-  { id: 4, date: '2026-06-08', buyer: 'Reazul', cost: 650, note: 'Summer Fruits & Liquid Milk' },
-  { id: 5, date: '2026-06-12', buyer: 'Vaia', cost: 400, note: 'Spices, Ginger & Garlic' },
-  { id: 6, date: '2026-06-15', buyer: 'Reazul', cost: 1100, note: 'Cleaning Supplies & Toiletries' },
-  { id: 7, date: '2026-06-18', buyer: 'Vaia', cost: 2200, note: 'Mutton & Extra Spices' },
-  { id: 8, date: '2026-06-22', buyer: 'Reazul', cost: 450, note: 'Evening Snacks & Tea Pack' },
+  { id: 1, date: '2026-06-01', buyer: 'Reza', cost: 1200, note: 'Daily Groceries (Rice, Lentils, Oil)' },
+  { id: 2, date: '2026-06-03', buyer: 'Reaz', cost: 850, note: 'Fresh Chicken & Eggs' },
+  { id: 3, date: '2026-06-05', buyer: 'Reza', cost: 1500, note: 'Fish and Fresh Vegetables' },
+  { id: 4, date: '2026-06-08', buyer: 'Reaz', cost: 650, note: 'Summer Fruits & Liquid Milk' },
+  { id: 5, date: '2026-06-12', buyer: 'Reza', cost: 400, note: 'Spices, Ginger & Garlic' },
+  { id: 6, date: '2026-06-15', buyer: 'Reaz', cost: 1100, note: 'Cleaning Supplies & Toiletries' },
+  { id: 7, date: '2026-06-18', buyer: 'Reza', cost: 2200, note: 'Mutton & Extra Spices' },
+  { id: 8, date: '2026-06-22', buyer: 'Reaz', cost: 450, note: 'Evening Snacks & Tea Pack' },
 ];
 
 const INITIAL_CONTRIBUTIONS = {
-  Vaia: 8500,
-  Reazul: 5000,
+  Reza: 8500,
+  Reaz: 5000,
 };
 
 export default function App() {
@@ -33,7 +33,25 @@ export default function App() {
   // Authentication State
   const [currentUser, setCurrentUser] = useState(() => {
     const saved = localStorage.getItem('active_user');
-    return saved ? JSON.parse(saved) : null;
+    if (saved) {
+      try {
+        const user = JSON.parse(saved);
+        if (user && user.name === 'Vaia') {
+          const migrated = { ...user, name: 'Reza' };
+          localStorage.setItem('active_user', JSON.stringify(migrated));
+          return migrated;
+        }
+        if (user && user.name === 'Reazul') {
+          const migrated = { ...user, name: 'Reaz' };
+          localStorage.setItem('active_user', JSON.stringify(migrated));
+          return migrated;
+        }
+        return user;
+      } catch (e) {
+        return null;
+      }
+    }
+    return null;
   });
 
   useEffect(() => {
@@ -47,14 +65,68 @@ export default function App() {
   // State
   const [bazarList, setBazarList] = useState(() => {
     const saved = localStorage.getItem('bazar_list');
-    return saved ? JSON.parse(saved) : INITIAL_BAZAR_DATA;
+    if (saved) {
+      try {
+        let parsed = JSON.parse(saved);
+        let changed = false;
+        parsed = parsed.map(item => {
+          if (item.buyer === 'Vaia') {
+            changed = true;
+            return { ...item, buyer: 'Reza' };
+          }
+          if (item.buyer === 'Reazul') {
+            changed = true;
+            return { ...item, buyer: 'Reaz' };
+          }
+          return item;
+        });
+        if (changed) {
+          localStorage.setItem('bazar_list', JSON.stringify(parsed));
+        }
+        return parsed;
+      } catch (e) {
+        return INITIAL_BAZAR_DATA;
+      }
+    }
+    return INITIAL_BAZAR_DATA;
   });
 
   const [baseContributions, setBaseContributions] = useState(() => {
     const savedBase = localStorage.getItem('base_contributions');
-    if (savedBase) return JSON.parse(savedBase);
+    if (savedBase) {
+      try {
+        let parsed = JSON.parse(savedBase);
+        if ('Vaia' in parsed || 'Reazul' in parsed) {
+          const migrated = {
+            Reza: parsed.Reza ?? parsed.Vaia ?? INITIAL_CONTRIBUTIONS.Reza,
+            Reaz: parsed.Reaz ?? parsed.Reazul ?? INITIAL_CONTRIBUTIONS.Reaz,
+          };
+          localStorage.setItem('base_contributions', JSON.stringify(migrated));
+          return migrated;
+        }
+        return parsed;
+      } catch (e) {
+        return INITIAL_CONTRIBUTIONS;
+      }
+    }
     const savedOld = localStorage.getItem('contributions');
-    return savedOld ? JSON.parse(savedOld) : INITIAL_CONTRIBUTIONS;
+    if (savedOld) {
+      try {
+        let parsed = JSON.parse(savedOld);
+        if ('Vaia' in parsed || 'Reazul' in parsed) {
+          const migrated = {
+            Reza: parsed.Reza ?? parsed.Vaia ?? INITIAL_CONTRIBUTIONS.Reza,
+            Reaz: parsed.Reaz ?? parsed.Reazul ?? INITIAL_CONTRIBUTIONS.Reaz,
+          };
+          localStorage.setItem('base_contributions', JSON.stringify(migrated));
+          return migrated;
+        }
+        return parsed;
+      } catch (e) {
+        return INITIAL_CONTRIBUTIONS;
+      }
+    }
+    return INITIAL_CONTRIBUTIONS;
   });
 
   // Modal controls
@@ -79,36 +151,36 @@ export default function App() {
   }, [baseContributions]);
 
   // Calculate total bazar spent by each roommate
-  const vaiaBazarSpent = bazarList
-    .filter(item => item.buyer === 'Vaia')
+  const rezaBazarSpent = bazarList
+    .filter(item => item.buyer === 'Reza')
     .reduce((sum, item) => sum + item.cost, 0);
 
-  const reazulBazarSpent = bazarList
-    .filter(item => item.buyer === 'Reazul')
+  const reazBazarSpent = bazarList
+    .filter(item => item.buyer === 'Reaz')
     .reduce((sum, item) => sum + item.cost, 0);
 
   // Total contribution is sum of base cash and out-of-pocket bazar spent
   const contributions = {
-    Vaia: baseContributions.Vaia + vaiaBazarSpent,
-    Reazul: baseContributions.Reazul + reazulBazarSpent,
+    Reza: baseContributions.Reza + rezaBazarSpent,
+    Reaz: baseContributions.Reaz + reazBazarSpent,
   };
 
   // Calculations
   const calculateEngine = () => {
-    const totalPool = contributions.Vaia + contributions.Reazul;
+    const totalPool = contributions.Reza + contributions.Reaz;
     
     // Split percentages
-    const splitVaia = 0.5833;
-    const splitReazul = 0.4167;
+    const splitReza = 0.5833;
+    const splitReaz = 0.4167;
 
     const targetShare = {
-      Vaia: totalPool * splitVaia,
-      Reazul: totalPool * splitReazul,
+      Reza: totalPool * splitReza,
+      Reaz: totalPool * splitReaz,
     };
 
     const balance = {
-      Vaia: contributions.Vaia - targetShare.Vaia,
-      Reazul: contributions.Reazul - targetShare.Reazul,
+      Reza: contributions.Reza - targetShare.Reza,
+      Reaz: contributions.Reaz - targetShare.Reaz,
     };
 
     return {
@@ -116,8 +188,8 @@ export default function App() {
       targetShare,
       balance,
       baseContributions,
-      vaiaBazarSpent,
-      reazulBazarSpent,
+      rezaBazarSpent,
+      reazBazarSpent,
     };
   };
 
@@ -193,7 +265,7 @@ export default function App() {
                   Roommates
                 </span>
               </h1>
-              <p className="text-xs text-slate-400">Fixed Split: Vaia 58.33% | Reazul 41.67%</p>
+              <p className="text-xs text-slate-400">Fixed Split: Reza 58.33% | Reaz 41.67%</p>
             </div>
           </div>
 
@@ -303,6 +375,15 @@ export default function App() {
           )}
         </main>
 
+        {/* Footer with Copyright */}
+        <footer className="pt-8 pb-4 border-t border-slate-800/60 flex flex-col sm:flex-row items-center justify-between text-[11px] text-slate-500 font-semibold gap-3">
+          <span>&copy; {new Date().getFullYear()} Reazul. All Rights Reserved.</span>
+          <div className="flex items-center space-x-4">
+            <span className="hover:text-slate-400 cursor-pointer">Privacy Policy</span>
+            <span>&bull;</span>
+            <span className="hover:text-slate-400 cursor-pointer">Terms of Service</span>
+          </div>
+        </footer>
       </div>
 
       {/* Modals */}

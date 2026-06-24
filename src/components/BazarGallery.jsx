@@ -43,8 +43,8 @@ export default function BazarGallery({
     
     // Roommate filter
     let matchesRoommate = true;
-    if (filterRoommate === 'Vaia') matchesRoommate = item.buyer === 'Vaia';
-    else if (filterRoommate === 'Reazul') matchesRoommate = item.buyer === 'Reazul';
+    if (filterRoommate === 'Reza') matchesRoommate = item.buyer === 'Reza';
+    else if (filterRoommate === 'Reaz') matchesRoommate = item.buyer === 'Reaz';
     else if (filterRoommate === 'Shared') matchesRoommate = item.buyer === 'Shared';
 
     return matchesSearch && matchesRoommate;
@@ -93,8 +93,8 @@ export default function BazarGallery({
   });
 
   const getAvatar = (buyer) => {
-    if (buyer === 'Vaia') return { text: 'V', style: 'bg-indigo-500/15 text-indigo-400 border-indigo-500/20' };
-    if (buyer === 'Reazul') return { text: 'R', style: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/20' };
+    if (buyer === 'Reza') return { text: 'V', style: 'bg-indigo-500/15 text-indigo-400 border-indigo-500/20' };
+    if (buyer === 'Reaz') return { text: 'R', style: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/20' };
     return { text: 'S', style: 'bg-amber-500/15 text-amber-400 border-amber-500/20' };
   };
 
@@ -118,7 +118,7 @@ export default function BazarGallery({
         <div className="flex flex-wrap items-center gap-3">
           {/* Roommate Filter */}
           <div className="flex items-center space-x-1 bg-slate-950/40 p-1 rounded-xl border border-slate-800/50">
-            {['All', 'Vaia', 'Reazul', 'Shared'].map((tab) => (
+            {['All', 'Reza', 'Reaz', 'Shared'].map((tab) => (
               <button
                 key={tab}
                 onClick={() => setFilterRoommate(tab)}

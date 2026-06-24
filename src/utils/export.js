@@ -15,14 +15,14 @@ const escapeCSV = (val) => {
  * Exports data to CSV/Excel format and triggers download.
  */
 export function exportToExcel(bazarList, calculations, monthName = 'June 2026') {
-  const { totalPool, targetShare, balance, baseContributions, vaiaBazarSpent, reazulBazarSpent } = calculations;
+  const { totalPool, targetShare, balance, baseContributions, rezaBazarSpent, reazBazarSpent } = calculations;
 
   // Settle math
   let settlementText = 'All Accounts Settled';
-  if (balance.Vaia > 0 && balance.Reazul < 0) {
-    settlementText = `Reazul owes Vaia ৳${Math.abs(balance.Reazul).toFixed(2)}`;
-  } else if (balance.Reazul > 0 && balance.Vaia < 0) {
-    settlementText = `Vaia owes Reazul ৳${Math.abs(balance.Vaia).toFixed(2)}`;
+  if (balance.Reza > 0 && balance.Reaz < 0) {
+    settlementText = `Reaz owes Reza ৳${Math.abs(balance.Reaz).toFixed(2)}`;
+  } else if (balance.Reaz > 0 && balance.Reza < 0) {
+    settlementText = `Reza owes Reaz ৳${Math.abs(balance.Reza).toFixed(2)}`;
   }
 
   // Construct CSV Rows
@@ -32,7 +32,7 @@ export function exportToExcel(bazarList, calculations, monthName = 'June 2026') 
   rows.push(['Shared Expense & Settlement Hub Report']);
   rows.push([`Month: ${monthName}`]);
   rows.push([`Generated: ${new Date().toLocaleString()}`]);
-  rows.push(['Split Weight: Roommate A (Vaia) = 58.33%, Roommate B (Reazul) = 41.67%']);
+  rows.push(['Split Weight: Roommate A (Reza) = 58.33%, Roommate B (Reaz) = 41.67%']);
   rows.push([]);
 
   // Calculations Summary Section
@@ -40,21 +40,21 @@ export function exportToExcel(bazarList, calculations, monthName = 'June 2026') 
   rows.push(['Name', 'Base Cash Contributed', 'Out-of-Pocket Bazar Spent', 'Total Paid Contribution', 'Target Share (58.33% / 41.67%)', 'Outstanding Dues / Overpaid']);
   
   rows.push([
-    'Vaia',
-    baseContributions.Vaia.toFixed(2),
-    vaiaBazarSpent.toFixed(2),
-    (baseContributions.Vaia + vaiaBazarSpent).toFixed(2),
-    targetShare.Vaia.toFixed(2),
-    balance.Vaia >= 0 ? `+৳${balance.Vaia.toFixed(2)} (Overpaid)` : `-৳${Math.abs(balance.Vaia).toFixed(2)} (Owes)`
+    'Reza',
+    baseContributions.Reza.toFixed(2),
+    rezaBazarSpent.toFixed(2),
+    (baseContributions.Reza + rezaBazarSpent).toFixed(2),
+    targetShare.Reza.toFixed(2),
+    balance.Reza >= 0 ? `+৳${balance.Reza.toFixed(2)} (Overpaid)` : `-৳${Math.abs(balance.Reza).toFixed(2)} (Owes)`
   ]);
   
   rows.push([
-    'Reazul',
-    baseContributions.Reazul.toFixed(2),
-    reazulBazarSpent.toFixed(2),
-    (baseContributions.Reazul + reazulBazarSpent).toFixed(2),
-    targetShare.Reazul.toFixed(2),
-    balance.Reazul >= 0 ? `+৳${balance.Reazul.toFixed(2)} (Overpaid)` : `-৳${Math.abs(balance.Reazul).toFixed(2)} (Owes)`
+    'Reaz',
+    baseContributions.Reaz.toFixed(2),
+    reazBazarSpent.toFixed(2),
+    (baseContributions.Reaz + reazBazarSpent).toFixed(2),
+    targetShare.Reaz.toFixed(2),
+    balance.Reaz >= 0 ? `+৳${balance.Reaz.toFixed(2)} (Overpaid)` : `-৳${Math.abs(balance.Reaz).toFixed(2)} (Owes)`
   ]);
 
   rows.push(['Total Pool', '', '', totalPool.toFixed(2), totalPool.toFixed(2), '']);
@@ -99,7 +99,7 @@ export function exportToExcel(bazarList, calculations, monthName = 'June 2026') 
  * Exports data to PDF document and triggers download.
  */
 export function exportToPDF(bazarList, calculations, monthName = 'June 2026') {
-  const { totalPool, targetShare, balance, baseContributions, vaiaBazarSpent, reazulBazarSpent } = calculations;
+  const { totalPool, targetShare, balance, baseContributions, rezaBazarSpent, reazBazarSpent } = calculations;
 
   // Initialize jsPDF document (A4 size)
   const doc = new jsPDF('p', 'mm', 'a4');
@@ -121,7 +121,7 @@ export function exportToPDF(bazarList, calculations, monthName = 'June 2026') {
   doc.setFontSize(10);
   doc.setTextColor(lightTextColor[0], lightTextColor[1], lightTextColor[2]);
   doc.text(`Month: ${monthName}  |  Generated on: ${new Date().toLocaleString()}`, 14, 26);
-  doc.text('House Ratio Split Config: Vaia (58.33%)  |  Reazul (41.67%)', 14, 31);
+  doc.text('House Ratio Split Config: Reza (58.33%)  |  Reaz (41.67%)', 14, 31);
 
   // Line separator
   doc.setDrawColor(226, 232, 240);
@@ -142,32 +142,32 @@ export function exportToPDF(bazarList, calculations, monthName = 'June 2026') {
   doc.setTextColor(textColor[0], textColor[1], textColor[2]);
   doc.text(`TK ${totalPool.toLocaleString()}`, 17, 52);
 
-  // Vaia Card text
+  // Reza Card text
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(8);
   doc.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
   doc.text('VAIA TOTAL CONTRIBUTION', 78, 43);
   doc.setFontSize(14);
   doc.setTextColor(textColor[0], textColor[1], textColor[2]);
-  doc.text(`TK ${(baseContributions.Vaia + vaiaBazarSpent).toLocaleString()}`, 78, 52);
+  doc.text(`TK ${(baseContributions.Reza + rezaBazarSpent).toLocaleString()}`, 78, 52);
 
-  // Reazul Card text
+  // Reaz Card text
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(8);
   doc.setTextColor(secondaryColor[0], secondaryColor[1], secondaryColor[2]);
   doc.text('REAZUL TOTAL CONTRIBUTION', 139, 43);
   doc.setFontSize(14);
   doc.setTextColor(textColor[0], textColor[1], textColor[2]);
-  doc.text(`TK ${(baseContributions.Reazul + reazulBazarSpent).toLocaleString()}`, 139, 52);
+  doc.text(`TK ${(baseContributions.Reaz + reazBazarSpent).toLocaleString()}`, 139, 52);
 
   // --- Flow of Funds Settlement Instruction Card ---
   let settlementText = 'No payment transactions needed. All accounts are fully settled.';
   let isSettled = true;
-  if (balance.Vaia > 0 && balance.Reazul < 0) {
-    settlementText = `Reazul owes Vaia TK ${Math.abs(balance.Reazul).toFixed(2)}. Please transfer this amount to settle balances.`;
+  if (balance.Reza > 0 && balance.Reaz < 0) {
+    settlementText = `Reaz owes Reza TK ${Math.abs(balance.Reaz).toFixed(2)}. Please transfer this amount to settle balances.`;
     isSettled = false;
-  } else if (balance.Reazul > 0 && balance.Vaia < 0) {
-    settlementText = `Vaia owes Reazul TK ${Math.abs(balance.Vaia).toFixed(2)}. Please transfer this amount to settle balances.`;
+  } else if (balance.Reaz > 0 && balance.Reza < 0) {
+    settlementText = `Reza owes Reaz TK ${Math.abs(balance.Reza).toFixed(2)}. Please transfer this amount to settle balances.`;
     isSettled = false;
   }
 
@@ -197,20 +197,20 @@ export function exportToPDF(bazarList, calculations, monthName = 'June 2026') {
   const ledgerHeaders = [['Roommate', 'Base Cash', 'Bazar Spent', 'Total Paid', 'Target Share', 'Outstanding Dues']];
   const ledgerRows = [
     [
-      'Vaia (58.33%)',
-      `TK ${baseContributions.Vaia.toLocaleString()}`,
-      `TK ${vaiaBazarSpent.toLocaleString()}`,
-      `TK ${(baseContributions.Vaia + vaiaBazarSpent).toLocaleString()}`,
-      `TK ${targetShare.Vaia.toFixed(2)}`,
-      balance.Vaia >= 0 ? `+TK ${balance.Vaia.toFixed(2)} (Refund)` : `-TK ${Math.abs(balance.Vaia).toFixed(2)} (Owes)`
+      'Reza (58.33%)',
+      `TK ${baseContributions.Reza.toLocaleString()}`,
+      `TK ${rezaBazarSpent.toLocaleString()}`,
+      `TK ${(baseContributions.Reza + rezaBazarSpent).toLocaleString()}`,
+      `TK ${targetShare.Reza.toFixed(2)}`,
+      balance.Reza >= 0 ? `+TK ${balance.Reza.toFixed(2)} (Refund)` : `-TK ${Math.abs(balance.Reza).toFixed(2)} (Owes)`
     ],
     [
-      'Reazul (41.67%)',
-      `TK ${baseContributions.Reazul.toLocaleString()}`,
-      `TK ${reazulBazarSpent.toLocaleString()}`,
-      `TK ${(baseContributions.Reazul + reazulBazarSpent).toLocaleString()}`,
-      `TK ${targetShare.Reazul.toFixed(2)}`,
-      balance.Reazul >= 0 ? `+TK ${balance.Reazul.toFixed(2)} (Refund)` : `-TK ${Math.abs(balance.Reazul).toFixed(2)} (Owes)`
+      'Reaz (41.67%)',
+      `TK ${baseContributions.Reaz.toLocaleString()}`,
+      `TK ${reazBazarSpent.toLocaleString()}`,
+      `TK ${(baseContributions.Reaz + reazBazarSpent).toLocaleString()}`,
+      `TK ${targetShare.Reaz.toFixed(2)}`,
+      balance.Reaz >= 0 ? `+TK ${balance.Reaz.toFixed(2)} (Refund)` : `-TK ${Math.abs(balance.Reaz).toFixed(2)} (Owes)`
     ]
   ];
 
